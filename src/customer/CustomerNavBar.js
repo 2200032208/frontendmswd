@@ -5,7 +5,7 @@ import CustomerProfile from './CustomerProfile';
 import CustomerLogin from './CustomerLogin';
 import UpdateCustomerProfile from './UpdateCustomerProfile';
 import PurchaseProduct from './PurchaseProduct';
-import MyOrders from './MyOrders';
+// import MyOrders from './MyOrders';
 import AddProduct from './AddProduct';
 import MyProductsPage from './MyProductsPage';
 import config from '../config'
@@ -36,9 +36,9 @@ export default function CustomerNavBar() {
             </div>
           </li>
           <li><Link to="/buyproduct">Purchase Product</Link></li>
-          <li><Link to="/myorders">My Orders</Link></li> 
-          <li><Link to="/addproduct">Add Product</Link></li>
-          <li><Link to="/myproducts">My Products</Link></li>
+          {/* <li><Link to="/myorders">My Orders</Link></li>  */}
+          <li><Link to="/addproduct">Add Adoption Pet</Link></li>
+          {/* <li><Link to="/myproducts">My Products</Link></li> */}
           <li><Link to="/" className="logout-button" onClick={handleLogout}>Logout</Link></li>
         </ul>
       </nav>
@@ -51,7 +51,7 @@ export default function CustomerNavBar() {
         <Route path="/buyproduct" element={<PurchaseProduct />} exact />
         <Route path="/addproduct" element={<AddProduct />} exact />
         <Route path="/myproducts" element={<MyProductsPage />} />
-        <Route path="/myorders" element={<MyOrders />} exact /> {/* Route for My Orders */}
+        {/* <Route path="/myorders" element={<MyOrders />} exact /> Route for My Orders */}
       </Routes>
     </div>
   );

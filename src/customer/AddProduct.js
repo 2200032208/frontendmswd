@@ -23,7 +23,7 @@ export default function AddProduct() {
       const customerEmail = customer.email;
       setFormData(prevState => ({ ...prevState, company: customerEmail }));
     }
-  }, []); // Empty dependency array ensures this effect runs only once after the component mounts
+  }, []); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
