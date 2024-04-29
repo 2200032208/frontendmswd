@@ -4,7 +4,6 @@ import CustomerNavBar from './customer/CustomerNavBar';
 import AdminNavBar from './admin/AdminNavBar';
 import MainNavBar from './main/MainNavBar';
 import logo from '../src/Images/logo.jpg';
-//import image from '../src/Images/image.jpg'
 import './App.css'
 import SellerNavBar from './seller/SellerNavBar';
 //import config from '../src/config'
