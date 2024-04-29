@@ -53,7 +53,7 @@ export default function AddProduct() {
 
   return (
     <div style={styles.container}>
-      <h3 style={styles.title}><u>Add Product</u></h3>
+      <h3 style={styles.title}><u>Add Details</u></h3>
       {
         message ? <h4 style={styles.message}>{message}</h4> : <h4 style={styles.error}>{error}</h4>
       }
