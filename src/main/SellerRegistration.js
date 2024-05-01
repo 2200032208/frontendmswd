@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './SellerRegistration.css'; // Import CSS file for styling
-import config from '../config'
+import './SellerRegistration.css'; 
+import config from '../config';
 
 export default function SellerRegistration() {
   const [formData, setFormData] = useState({
@@ -67,7 +67,7 @@ export default function SellerRegistration() {
         return;
       }
 
-      const response = await axios.post('http://localhost:2014/sellerapplicantregistration', formData);
+      const response = await axios.post(`${config.url}/sellerapplicantregistration`, formData);
       if (response.status === 200) {
         setFormData({
           fullname: '',
@@ -89,7 +89,7 @@ export default function SellerRegistration() {
   };
 
   return (
-    <div className="registration-container"> {/* Apply CSS class for styling */}
+    <div className="registration-container"> 
       <h3 align="center"><u>Seller Registration</u></h3>
       {
         message ? <h4 align="center">{message}</h4> : <h4 align="center">{error}</h4>

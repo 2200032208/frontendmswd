@@ -5,16 +5,13 @@ import AdminHome from './AdminHome';
 import ViewCustomers from './ViewCustomers';
 import ViewSellers from './ViewSellers'
 import AddSeller from './AddSeller'
-import config from '../config'
 import ViewSellerApplicants from './ViewSellerApplicants'
 export default function AdminNavBar() {
   const navigate = useNavigate();
-
-
   const handleLogout = () => {
     localStorage.removeItem('isAdminLoggedIn');
     localStorage.removeItem('admin');
-    navigate('/adminlogin');
+    navigate('/');
     window.location.reload()
   };
 

@@ -6,16 +6,15 @@ import UpdateSellerProfile from './UpdateSellerProfile';
 import AddProduct from './AddProduct';
 import ViewDelivers from './ViewDeliveries'; 
 import './seller.css';
-import config from '../config'
 
 export default function SellerNavBar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('isSellerLoggedIn');
-    localStorage.removeItem('retailer');
+    localStorage.removeItem('seller');
 
-    navigate('/sellerlogin');
+    navigate('/');
     window.location.reload();
   };
 
@@ -32,7 +31,7 @@ export default function SellerNavBar() {
             </div>
           </li>
           <li><Link to="/addproduct">Add Product</Link></li> {/* Corrected the link text */}
-          <li><Link to="/viewdelivers">View Delivery's</Link></li> {/* Added View Delivers link */}
+          <li><Link to="/viewdelivers">View Deliverys</Link></li> {/* Added View Delivers link */}
           <li><Link to="/" className="logout-button" onClick={handleLogout}>Logout</Link></li>
         </ul>
       </nav>

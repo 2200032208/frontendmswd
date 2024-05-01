@@ -2,73 +2,154 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../config'
 
-export default function ViewSellers() {
-  const [sellers, setSellers] = useState([]);
+export default function AddProduct() {
+  const [formData, setFormData] = useState({
+    name: '',
+    category: 'Pets(PreOwned)', 
+    company: '',
+    price: '',
+    quantity: '',
+    description: ''
+  });
 
-  const fetchSellers = async () => {
-    try {
-      const response = await axios.get(`${config.url}/viewsellers`);
-      setSellers(response.data);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchSellers();
-  }, []);
-
-  const deleteSeller = async (username) => {
-    try {
-      await axios.delete(`${config.url}/deleteseller/${username}`);
-      fetchSellers();
-    } catch (error) {
-      console.error(error.message);
+    // Fetch customer email from local storage
+    const customerString = localStorage.getItem('customer');
+    if (customerString) {
+      const customer = JSON.parse(customerString);
+      const customerEmail = customer.email;
+      setFormData(prevState => ({ ...prevState, company: customerEmail }));
     }
-  }
+  }, []); // Empty dependency array ensures this effect runs only once after the component mounts
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${config.url}/addproduct`, formData);
+      if (response.status === 200) {
+        setFormData({
+          name: '',
+          category: 'Pets(PreOwned)',
+          company: '',
+          price: '',
+          quantity: '',
+          description: ''
+        });
+      }
+      setMessage(response.data);
+      setError('');
+    } catch (error) {
+      setError(error.response.data);
+      setMessage('');
+    }
+  };
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>Sellers</h1>
-      
-      <table border={1} align="center" style={{ width: 'auto', height: 'auto' }}>
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>Gender</th>
-              <th>Date of Birth</th>
-              <th>Shop</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Contact</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-  {Array.isArray(sellers) && sellers.length > 0 ? (
-    sellers.map((seller, index) => (
-      <tr key={index}>
-        <td>{seller.fullname}</td>
-        <td>{seller.gender}</td>
-        <td>{seller.dateofbirth}</td>
-        <td>{seller.company}</td>
-        <td>{seller.username}</td>
-        <td>{seller.email}</td>
-        <td>{seller.address}</td>
-        <td>{seller.contact}</td>
-        <td>
-          <button onClick={() => deleteSeller(seller.username)} className='button'>Remove</button>
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="9">Data Not Found</td>
-    </tr>
-  )}
-</tbody>
-        </table>
+    <div style={styles.container}>
+      <h3 style={styles.title}><u>Add Product</u></h3>
+      {
+        message ? <h4 style={styles.message}>{message}</h4> : <h4 style={styles.error}>{error}</h4>
+      }
+
+      <form onSubmit={handleSubmit} style={styles.form}>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Product Name:</label>
+          <input type="text" id="name" value={formData.name} onChange={handleChange} required style={styles.input} />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Category:</label>
+          <select id="category" value={formData.category} onChange={handleChange} required style={styles.input}>
+            <option value="Pets(PreOwned)">PreOwned Pets</option>
+          </select>   
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Seller:</label>
+          <input type="text" id="company" value={formData.company} onChange={handleChange} required style={styles.input} disabled />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Price:</label>
+          <input type="number" id="price" value={formData.price} onChange={handleChange} required style={styles.input} />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Quantity:</label>
+          <input type="number" id="quantity" value={formData.quantity} onChange={handleChange} required style={styles.input} />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Description:</label>
+          <textarea type="text" id="description" value={formData.description} onChange={handleChange} required style={styles.textarea} />
+        </div>
+        <button type="submit" style={styles.button}>Add</button>
+      </form>
     </div>
   );
 }
+
+const styles = {
+  container: {
+    width: '50%',
+    margin: 'auto',
+    textAlign: 'center',
+    marginTop: '50px',
+    padding: '20px',
+    borderRadius: '10px'
+  },
+  title: {
+    marginBottom: '20px'
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  formGroup: {
+    margin: '10px 0',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start'
+  },
+  label: {
+    marginBottom: '5px',
+    fontSize: '1.2rem'
+  },
+  input: {
+    padding: '8px',
+    fontSize: '1rem',
+    width: '100%',
+    boxSizing: 'border-box',
+    border: '1px solid #ccc',
+    borderRadius: '5px'
+  },
+  textarea: {
+    padding: '8px',
+    fontSize: '1rem',
+    width: '100%',
+    boxSizing: 'border-box',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    minHeight: '100px'
+  },
+  button: {
+    padding: '10px 20px',
+    fontSize: '1.1rem',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginTop: '20px'
+  },
+  message: {
+    color: 'green'
+  },
+  error: {
+    color: 'red'
+  }
+};

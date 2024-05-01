@@ -5,11 +5,9 @@ import CustomerProfile from './CustomerProfile';
 import CustomerLogin from './CustomerLogin';
 import UpdateCustomerProfile from './UpdateCustomerProfile';
 import PurchaseProduct from './PurchaseProduct';
-// import MyOrders from './MyOrders';
+//import MyOrders from './MyOrders';
 import AddProduct from './AddProduct';
 import MyProductsPage from './MyProductsPage';
-import config from '../config'
-
 import './style.css';
 
 export default function CustomerNavBar() {
@@ -19,7 +17,7 @@ export default function CustomerNavBar() {
     localStorage.removeItem('isCustomerLoggedIn');
     localStorage.removeItem('customer');
 
-    navigate('/customerlogin');
+    navigate('/');
     window.location.reload();
   };
 
